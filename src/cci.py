@@ -90,8 +90,8 @@ def channel_autocorrelation(doppler_freq_hz: float, tau: float) -> float:
 
     Examples
     --------
-    >>> channel_autocorrelation(30.0, 0.004)  # fD=30Hz, τ=4ms
-    0.6425...
+    >>> round(float(channel_autocorrelation(30.0, 0.004)), 6)  # fD=30Hz, τ=4ms
+    0.862848
     """
     return j0(2 * np.pi * doppler_freq_hz * tau)
 
@@ -118,7 +118,7 @@ def condition_number(H: np.ndarray) -> float:
     Examples
     --------
     >>> H = np.eye(4)
-    >>> condition_number(H)
+    >>> round(float(condition_number(H)), 6)
     1.0
     """
     singular_values = np.linalg.svd(H, compute_uv=False)

@@ -9,7 +9,8 @@
 [![Presented: IEEE ATNT 2026](https://img.shields.io/badge/Presented-IEEE_ATNT_2026-e5484d)](https://wavelynk.us#presentation)
 
 > **Official Final External Version (v1.0.0)**  
-> This repository contains the finalized research code, simulation notebooks, hardware testbed dataset, and publication materials for the IEEE conference paper:  
+> This repository contains the finalized research code, simulation notebooks, a hardware-analysis notebook, and publication materials for the IEEE conference paper.
+>
 > *“Predicting Beamforming Instability in Wi-Fi 7 and 6G Systems Using a Conditioned Coherence Framework”*, presented at the **2026 IEEE International Conference on Advanced Telecommunication and Networking Technologies (ATNT)**, 2–3 September 2026, Johor Bahru, Malaysia.
 
 ### 📺 Watch the conference presentation
@@ -60,7 +61,7 @@ The threshold **$\gamma = 0.6$** is derived analytically: substituting a typical
 | Packet Loss | Catastrophic collapse | Moderate | **Controlled** | **Prevented** |
 | Validated Trials | — | — | **100 Trials** | — |
 
-*Empirical testbed data from 100 trials on a 6 GHz Wi-Fi 7 router. See [`notebooks/03_monte_carlo.ipynb`](notebooks/03_monte_carlo.ipynb) and [`notebooks/04_hardware_validation.ipynb`](notebooks/04_hardware_validation.ipynb) for full results.*
+*Project-reported results. The [Monte Carlo notebook](notebooks/03_monte_carlo.ipynb) runs the simulation, and the [hardware notebook](notebooks/04_hardware_validation.ipynb) demonstrates the analysis. The public checkout has no raw hardware CSVs, so that notebook uses synthetic placeholders by default.*
 
 ---
 
@@ -96,13 +97,10 @@ WaveLynk/
 │   ├── README.md                      ← Poster summary & visual outline
 │   └── .gitkeep
 │
-├── data/                              ← Experimental & simulation datasets
+├── data/                              ← Input formats and generated-output locations
 │   ├── README.md                      ← Data dictionary & measurement protocol
-│   ├── hardware/                      ← Wi-Fi 7 testbed trial measurements
+│   ├── hardware/                      ← Optional Wi-Fi testbed CSV input
 │   └── simulation/                    ← Monte Carlo generated CSVs
-│
-├── tests/                             ← Unit tests for the core src/ package
-│   └── test_cci.py                    ← Tests for CCI, Doppler & coherence-time functions
 │
 ├── site/                              ← Interactive web application & live demo
 │   ├── index.html                     ← Responsive SPA (Science, Demos, Evidence, Team)
@@ -141,15 +139,15 @@ Follow the notebooks in numerical order:
 1. `01_cci_derivation.ipynb`: Step-by-step mathematical derivation of the CCI equation and the $\gamma = 0.6$ threshold.
 2. `02_simulation_figures.ipynb`: Reproduces 3D stability surfaces and multi-panel performance figures.
 3. `03_monte_carlo.ipynb`: 100-run Monte Carlo sweep evaluating outage probability under stochastic channels.
-4. `04_hardware_validation.ipynb`: Validates theoretical bounds against physical 6 GHz testbed data.
+4. `04_hardware_validation.ipynb`: Runs the hardware-analysis workflow using optional testbed CSVs or a synthetic example. See the [data guide](data/README.md) for the expected CSV columns.
 
-### Run the Tests
+### Check the reference formulas
+
+From the repository root, run the executable examples for Doppler frequency and coherence time.
 
 ```bash
-pytest tests/
+python -m doctest src/cci.py
 ```
-
-Verifies the CCI, Doppler frequency, coherence time, and switching-rule functions in `src/cci.py` against the closed-form equations in the paper.
 
 ### Run the Interactive Web Demo
 
@@ -163,7 +161,7 @@ python3 -m http.server 8000
 
 ## Hardware Testbed
 
-Experimental validation was conducted on a physical Wi-Fi 6/7 testbed:
+The project reports experimental validation on a physical Wi-Fi 6/7 testbed. The setup below documents that experiment. Reproducing the reported hardware results requires the raw trial data.
 
 - **Router:** Netgear Nighthawk Wi-Fi 6/7 router operating on the 6 GHz band
 - **Server:** Laptop running `iperf3` in server mode
